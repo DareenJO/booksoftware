@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { connectDB } from './config/db';
 const app = express();
 
+
  connectDB();
 
 //middleware 

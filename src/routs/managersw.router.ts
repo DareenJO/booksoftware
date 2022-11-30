@@ -5,7 +5,7 @@ import { bookSchema ,loanSchema,userSchema} from "../zodschema/manageschema";
 const router = express.Router();
 
 
-router.get('/user/:userid',validate(userSchema),getuser);
+router.get('/users',getuser);
 router.get('/book/:bookid',validate(bookSchema),getbooks);
 router.get('/loan/:loanid',validate(loanSchema),getLoan);
 router.post('/user',validate(userSchema), addusers);

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,25 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model books {
+  id    String @id @default(uuid())
+  name  String
+  gener String
+  loan  loan[]
+}
 
-model User {
-  id String @id @default(uuid())
+model loan {
+  id     String @id @default(uuid())
+  userid String
+  bookid String
+  books  books  @relation(fields: [bookid], references: [id], map: "Loan_bookid_fkey")
+  user   user   @relation(fields: [userid], references: [id], map: "Loan_userid_fkey")
+
+  @@index([bookid], map: "Loan_bookid_fkey")
+  @@index([userid], map: "Loan_userid_fkey")
+}
+
+model user {
+  id       String @id @default(uuid())
   username String
   password String
-  loan Loan[]
+  loan     loan[]
 }
-model Books {
-  id String @id 
-  name String
-  gener String
-  loan Loan []
-}
-
-model Loan {
-  id String @id 
-  userid String
-  bookid  String
-  user User @relation(fields: [userid],references: [id])
-  book Books @relation(fields: [bookid],references: [id])
-}
-

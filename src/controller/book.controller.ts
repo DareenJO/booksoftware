@@ -1,12 +1,15 @@
-import { User,Books,Loan } from '@prisma/client';
+import { user,books,loan } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { paramsschemaType } from '../zodschema/manageschema';
-import { Request, Response } from "express";
+
 import { prisma } from "../config/db";
+import { Request, Response } from 'express';
 
 
 export const getuser = async (req: Request, res: Response) => {
     try {
+      console.log("im here ");
+      
       const getusers = await prisma.user.findMany();
       return res.status(200).json(getusers);
     } catch (error) {
@@ -19,7 +22,7 @@ export const getuser = async (req: Request, res: Response) => {
   
   export const addusers = async (req: Request, res: Response) => {
     try {
-      const newUser = req.body as User;
+      const newUser = req.body as user;
   
       await prisma.user.create({
         data: newUser,
@@ -53,7 +56,7 @@ export const getuser = async (req: Request, res: Response) => {
   
   export const addbook = async (req: Request, res: Response) => {
     try {
-      const bookadd = req.body as Books;
+      const bookadd = req.body as books;
       await prisma.books.create({ data: bookadd });
   
       return res.status(201).json({
@@ -86,7 +89,7 @@ export const getuser = async (req: Request, res: Response) => {
  
   export const addloan = async (req: Request, res: Response) => {
     try {
-      const loanadd = req.body as Loan;
+      const loanadd = req.body as loan;
       await prisma.loan.create({ data: loanadd });
   
       return res.status(201).json({
@@ -103,11 +106,11 @@ export const getuser = async (req: Request, res: Response) => {
  
   export const lendbook = async (req: Request, res: Response) => {
     try {
-      const {userid} = req.params as paramsschemaType;
+      const {id} = req.params as user;
   
       const getbookuser = await prisma.user.findUnique({
         
-        where: {id_user:userid},
+        where: {id},
         select: {
           username: true,
           loan: true,
